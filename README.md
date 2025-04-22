@@ -1,6 +1,4 @@
 # fastle
 
-Requirements:
-
-- Set Anthropic key in .env
-- `brew install pngpaste`
+Tools for solving Wordle faster!
+- Please do not cheat! Only use for practice on wordleunlimited.org
