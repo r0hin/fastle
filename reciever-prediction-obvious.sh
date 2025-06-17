@@ -2,7 +2,7 @@
 
 # Metadata tags for Raycast
 # @raycast.schemaVersion 1
-# @raycast.title Fastle Receiver
+# @raycast.title Fastle Prediction Receiver (Tryhard Mode)
 # @raycast.mode inline
 # @raycast.icon 📲
 # @raycast.packageName Fastle
@@ -16,7 +16,7 @@
 set -l venv_path "/Users/rohin/GitHub/wordle-one/venv/bin/activate.fish"
 
 # Determine which script to run based on mode argument
-set -l script_path "/Users/rohin/GitHub/wordle-one/reciever.py"
+set -l script_path "/Users/rohin/GitHub/wordle-one/reciever-prediction-obvious.py"
 
 # Create a subprocess that sources the venv and runs the Python script in the background
 # Use nohup to make it completely immune to hangups and redirect output to /dev/null
