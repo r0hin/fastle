@@ -9,8 +9,12 @@
   "peerDependencies": {
     "typescript": "^5"
   },
+  "scripts": {
+    "build": "node build.js"
+  },
   "dependencies": {
     "clipboardy": "^4.0.0",
+    "esbuild": "^0.25.5",
     "jimp": "^1.6.0",
     "opencv4nodejs": "^5.6.0"
   }

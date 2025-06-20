@@ -1,9 +1,12 @@
-import { solveWordleSync } from "./solve";
+import words from "./words";
 
-/**
- * Simple Wordle solver that takes manual input of known positions and excluded letters
- */
-function main() {
+interface WordleConstraints {
+  excludedLetters: string[];
+  includedLetters: string[];
+  knownPositions: (string | null)[];
+}
+
+const main = () => {
   console.log("Wordle Helper\n-------------");
 
   // Get command line arguments
@@ -92,7 +95,40 @@ function main() {
       console.log(`\nFound ${matchingWords.length} matching words.`);
     }
   }
-}
+};
 
-// Run the main function
+const solveWordleSync = (constraints: WordleConstraints): string[] => {
+  try {
+    // Filter words based on constraints
+    return words.filter((word) => {
+      // Filter out words that have excluded letters
+      for (const letter of constraints.excludedLetters) {
+        if (word.includes(letter)) {
+          return false;
+        }
+      }
+
+      // Filter out words than don't have included letters
+      for (const letter of constraints.includedLetters) {
+        if (!word.includes(letter)) {
+          return false;
+        }
+      }
+
+      // Filter based on known positions
+      for (let i = 0; i < constraints.knownPositions.length; i++) {
+        const knownLetter = constraints.knownPositions[i];
+        if (knownLetter !== null && word[i] !== knownLetter) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  } catch (error) {
+    console.error("Error reading words file:", error);
+    return [];
+  }
+};
+
 main();

@@ -43,7 +43,7 @@ end
 # Don't show any constraint information
 
 # Run the solver quietly
-set OUTPUT (bun run index.ts --known $KNOWN_POSITIONS --excluded $EXCLUDED_LETTERS --included $INCLUDED_LETTERS 2>&1)
+set OUTPUT (bun run solver.ts --known $KNOWN_POSITIONS --excluded $EXCLUDED_LETTERS --included $INCLUDED_LETTERS 2>&1)
 
 # Don't display the raw output, we'll format it nicely
 # Check for errors
