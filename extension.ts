@@ -330,3 +330,93 @@ window.setTimeout(() => {
 const removeDuplicates = (arr: string[]) => {
   return arr.filter((item, index, self) => self.indexOf(item) === index);
 };
+
+// Insert input into the page
+window.setTimeout(() => {
+  const topContainer = document.querySelectorAll(".top-container")[0];
+  const inp = document.createElement("input");
+  inp.type = "text";
+  topContainer.appendChild(inp);
+
+  // Handle both typing and paste/dictation
+  inp.addEventListener("input", (e) => {
+    const latest = (e.target as HTMLInputElement).value;
+
+    const lastWord = latest.split(" ").pop() || "";
+
+    if (lastWord.length === 5) {
+      typeWord(lastWord.split(""));
+    }
+
+    // Focus the input
+    inp.focus();
+    window.setTimeout(() => {
+      inp.focus();
+    }, 100);
+  });
+}, 4999);
+
+let lastWord = "";
+
+const typeWord = (lettersToType: string[]) => {
+  if (lastWord === lettersToType.join("")) return;
+  lastWord = lettersToType.join("");
+  console.log(`Typing ${lettersToType.join("")}`);
+  const wrapper = document.querySelector("#game-wrapper");
+  if (!wrapper) return;
+
+  // 1) Make it programmatically focusable (once, e.g. on init)
+  wrapper.setAttribute("tabindex", "0");
+
+  // 2) Focus it once before sending events
+  (wrapper as HTMLElement).focus();
+
+  for (const _i of [0, 1, 2, 3, 4]) {
+    // Backspace
+    window.setTimeout(() => {
+      const evt = new KeyboardEvent("keydown", {
+        key: "Backspace",
+        code: "Backspace",
+        keyCode: 8,
+        bubbles: true,
+        cancelable: true,
+      });
+      wrapper.dispatchEvent(evt);
+    });
+  }
+
+  lettersToType.forEach((letter: string, i: number) => {
+    // Simulate typing the letter
+    window.setTimeout(() => {
+      // 3) Create a more complete KeyboardEvent
+      const evt = new KeyboardEvent("keydown", {
+        key: letter, // the character
+        code: "Key" + letter.toUpperCase(),
+        keyCode: letter.charCodeAt(0),
+        charCode: letter.charCodeAt(0),
+        which: letter.charCodeAt(0),
+        bubbles: true,
+        cancelable: true,
+        composed: true,
+        view: window,
+      });
+
+      // 4) Dispatch it
+      wrapper.dispatchEvent(evt);
+
+      if (i === 4) {
+        const evt = new KeyboardEvent("keydown", {
+          key: "Enter",
+          code: "Enter",
+          keyCode: 13,
+          bubbles: true,
+          cancelable: true,
+          composed: true,
+          view: window,
+        });
+
+        wrapper.dispatchEvent(evt);
+      }
+    }, i * 20);
+  });
+};
